@@ -5,14 +5,13 @@ public class Board {
 	private static final String ERROR_CREATING_BOARD = "Error creating board: there must be at least 1 row and 1 column";
 	private static final String PIECE_POSITION = "There is already a piece on position ";
 	private static final String POSITION = "Position not on the board";
+	
 	private int rows;
 	private int columns;
 	private Piece[][] pieces;
 
 	public Board(int rows, int columns) {
-		if (rows < 1 || columns < 1) {
-			throw new BoardException(ERROR_CREATING_BOARD);
-		}
+		validatorRowAndColumn(rows, columns);
 		
 		this.rows = rows;
 		this.columns = columns;
@@ -36,7 +35,7 @@ public class Board {
 	}
 	
 	public Piece piece(Position position) {
-		validator(position);
+		validatorPosition(position);
 		return pieces[position.getRow()][position.getColumn()];
 	}
 	
@@ -59,13 +58,19 @@ public class Board {
 	}
 	
 	public boolean thereIsAPiece(Position position) {
-		validator(position);
+		validatorPosition(position);
 		return piece(position) != null;
 	}
 	
-	private void validator(Position position) {
+	private void validatorPosition(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException(POSITION);
+		}
+	}
+	
+	private void validatorRowAndColumn(int rows, int columns) {
+		if (rows < 1 || columns < 1) {
+			throw new BoardException(ERROR_CREATING_BOARD);
 		}
 	}
 
