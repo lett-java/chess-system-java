@@ -8,6 +8,8 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
+	private static final String NO_POSSIBLE_MOVES = "There is no possible moves for the chosen piece";
+	private static final String NO_PIECE_POSITION = "There is no piece on source position";
 	private Board board;
 
 	public ChessMatch() {
@@ -49,7 +51,10 @@ public class ChessMatch {
 
 	private void validateSourcePosition(Position position) {
 		if (!board.thereIsAPiece(position)) {
-			throw new ChessException("There is no piece on source position");
+			throw new ChessException(NO_PIECE_POSITION);
+		}
+		if (!board.piece(position).isThereAnyPossibleMove()) {
+			throw new ChessException(NO_POSSIBLE_MOVES);
 		}
 	}
 
