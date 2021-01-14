@@ -8,6 +8,7 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
+	private static final String CANT_TARGET = "The chosen piece can't move to target position";
 	private static final String NO_POSSIBLE_MOVES = "There is no possible moves for the chosen piece";
 	private static final String NO_PIECE_POSITION = "There is no piece on source position";
 	private Board board;
@@ -34,12 +35,14 @@ public class ChessMatch {
 		Position target = targetPosition.toPosition();
 		
 		validateSourcePosition(source);
+		validateTargetPosition(source, target);
 		
 		Piece capturedPiece = makeMove(source, target);
 		
 		return (ChessPiece)capturedPiece;
 	}
 	
+
 	private Piece makeMove(Position source, Position target) {
 		Piece p = board.removePiece(source);
 		Piece capturedPiece = board.removePiece(target);
@@ -56,6 +59,13 @@ public class ChessMatch {
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException(NO_POSSIBLE_MOVES);
 		}
+	}
+
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {
+			throw new ChessException(CANT_TARGET);
+		}
+		
 	}
 
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
