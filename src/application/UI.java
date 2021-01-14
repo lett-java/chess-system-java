@@ -1,10 +1,15 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.ColorEnum;
 
 public class UI {
 
+	private static final String ERROR_POSITION_VALUES = "Error reading ChessPosition. Valid values are from a1 to h8.";
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
 
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -36,6 +41,19 @@ public class UI {
 		}
 
 		System.out.println("  a b c d e f g h  ");
+	}
+
+	public static ChessPosition readChessPosition(Scanner scanner) {
+		try {
+			String s = scanner.nextLine();
+			char column = s.charAt(0);
+			int row = Integer.parseInt(s.substring(1));
+
+			return new ChessPosition(column, row);
+
+		} catch (RuntimeException e) {
+			throw new InputMismatchException(ERROR_POSITION_VALUES);
+		}
 	}
 
 	private static void printPiece(ChessPiece piece) {
