@@ -12,6 +12,8 @@ import chess.ChessPosition;
 
 public class Program {
 
+	private static final String PROMOTION = "Enter piece for promotion (B/N/R/Q): ";
+
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
@@ -38,6 +40,13 @@ public class Program {
 
 				if (capturedPiece != null) {
 					captured.add(capturedPiece);
+				}
+				
+				if (chessMatch.getPromoted() != null) {
+					System.out.print(PROMOTION);
+					String type = scanner.nextLine();
+					
+					chessMatch.replacePromotedPiece(type);
 				}
 
 			} catch (ChessException e) {
